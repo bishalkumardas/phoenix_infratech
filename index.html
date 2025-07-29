@@ -103,19 +103,19 @@
 			<!-- Contact -->
 			<article id="contact">
 				<h2 class="major">Contact</h2>
-				<form method="post" id="contact-form" action="https://script.google.com/macros/s/AKfycbzMaPIW3weWsbYKMdtT5LPW4z2pjo6MZTcbOxCJm7K7H0aKLXdmTkgkK8wqTieM4IbCPQ/exec">
+				<form method="post" id="contact-form" action="https://script.google.com/macros/s/AKfycbzMaPIW3weWsbYKMdtT5LPW4z2pjo6MZTcbOxCJm7K7H0aKLXdmTkgkK8wqTieM4IbCPQ/exec" onsubmit="return validateForm()">
 					<div class="fields">
 						<div class="field half">
 							<label for="name">Name</label>
-							<input type="text" name="name" id="name" />
+							<input type="text" name="name" id="name" required />
 						</div>
 						<div class="field half">
 							<label for="email">Email</label>
-							<input type="text" name="email" id="email" />
+							<input type="email" name="email" id="email" required />
 						</div>
 						<div class="field">
 							<label for="message">Message</label>
-							<textarea name="message" id="message" rows="4"></textarea>
+							<textarea name="message" id="message" rows="4" required></textarea>
 						</div>
 					</div>
 					<ul class="actions">
@@ -177,6 +177,52 @@
 	<script>
 	document.getElementById("year").textContent = new Date().getFullYear();
 	</script>
+
+	<script>
+		function validateForm() {
+			const name = document.getElementById("name").value.trim();
+			const email = document.getElementById("email").value.trim();
+			const message = document.getElementById("message").value.trim();
+
+			// Empty field check
+			if (!name || !email || !message) {
+				alert("Please fill out all fields.");
+				return false;
+			}
+
+			// Email format validation
+			const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+			if (!emailRegex.test(email)) {
+				alert("Please enter a valid email address.");
+				return false;
+			}
+
+			// Check for potentially malicious characters (HTML/JS)
+			const unsafePattern = /[<>/"'`;{}()\\]/g;
+
+			if (unsafePattern.test(name) || unsafePattern.test(email) || unsafePattern.test(message)) {
+				alert("Inputs contain potentially unsafe characters.");
+				return false;
+			}
+
+			// Limit length to prevent buffer overflow or abuse
+			if (name.length > 100 || email.length > 100 || message.length > 1000) {
+				alert("One or more fields are too long.");
+				return false;
+			}
+
+			// Optional: Detect script tag or common XSS vectors
+			const xssPattern = /<script.*?>.*?<\/script.*?>|javascript:|onerror=|onload=/gi;
+			if (xssPattern.test(name) || xssPattern.test(email) || xssPattern.test(message)) {
+				alert("XSS-like patterns are not allowed.");
+				return false;
+			}
+
+			return true;
+		}
+	</script>
+
+
 
 </body>
 
