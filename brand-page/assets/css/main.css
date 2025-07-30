@@ -363,7 +363,7 @@ input, select, textarea {
 		padding: 5px;
 	}
 
-		#main .items {
+		/* #main .items {
 			display: -moz-flex;
 			display: -webkit-flex;
 			display: -ms-flex;
@@ -398,6 +398,53 @@ input, select, textarea {
 
 			#main .item.span-3 {
 				width: 40em;
+			} */
+
+			#main .items {
+			display: flex !important;
+			flex-wrap: wrap !important;
+			justify-content: center !important;
+			}
+
+			/* For screen width 432px or less */
+			@media screen and (max-width: 432px) {
+				#main .item {
+					flex-grow: 1 !important;
+					flex-shrink: 1 !important;
+					width: calc(50vw - 15px) !important;
+					margin: 2.5px !important;
+					height: 10em !important;  /* fixed height for small screens */
+					box-shadow: 0 0 0 5px #ffffff !important;
+					position: relative;  /* relative for absolutely positioned children */
+				}
+			}
+
+			/* For screen width greater than 432px */
+			@media screen and (min-width: 433px) {
+				#main .item {
+					flex-grow: 1 !important;
+					flex-shrink: 1 !important;
+					width: calc(50vw - 15px) !important;
+					margin: 2.5px !important;
+					height: 30em !important;  /* larger fixed height for bigger screens */
+					box-shadow: 0 0 0 5px #ffffff !important;
+					position: relative;
+				}
+			}
+
+			#main .item.intro {
+			width: calc(100vw - 20px) !important;
+			height: auto !important;
+			padding: 3em !important;
+			text-align: center !important;
+			}
+
+			#main .item.intro h1 {
+			font-size: 2em !important;
+			}
+
+			#main .item.intro p {
+			font-size: 1em !important;
 			}
 
 			#main .item.intro {
